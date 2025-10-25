@@ -328,6 +328,9 @@ class ContactBookAPITester:
             self.log_test("Duplicate Contact Detection", False, "No authentication token available")
             return
         
+        # Add small delay before test
+        time.sleep(0.2)
+        
         # Try to create a contact with the same name as before
         duplicate_contact = {
             "name": f"John Doe {self.test_id}",  # Same name as created earlier
