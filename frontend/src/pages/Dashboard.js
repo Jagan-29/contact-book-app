@@ -126,17 +126,17 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className=\"min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900\">
-        <div className=\"text-center\">
-          <div className=\"inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600\"></div>
-          <p className=\"mt-4 text-gray-600 dark:text-gray-300\">Loading your contacts...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-300">Loading your contacts...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className=\"min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300\">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       
       {/* Header */}
