@@ -373,11 +373,13 @@ class ContactBookAPITester:
         if response and response.status_code == 204:
             self.log_test("Delete Contact", True, "Contact deleted successfully")
             # Verify deletion by trying to get the contact
+            time.sleep(0.1)  # Small delay to ensure deletion is processed
             get_response = self.make_request("GET", f"/api/contacts/{self.created_contact_id}")
             if get_response and get_response.status_code == 404:
                 self.log_test("Delete Contact Verification", True, "Contact deletion verified")
             else:
-                self.log_test("Delete Contact Verification", False, "Contact still exists after deletion")
+                self.log_test("Delete Contact Verification", False, 
+                             f"Unexpected response after deletion: {get_response.status_code if get_response else 'No response'}")
         else:
             error_msg = response.json().get("detail", "Unknown error") if response else "No response"
             self.log_test("Delete Contact", False, f"Contact deletion failed: {error_msg}")
