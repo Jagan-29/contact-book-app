@@ -311,7 +311,8 @@ class ContactBookAPITester:
             self.log_test("Create Custom Category", False, "No authentication token available")
             return
         
-        response = self.make_request("POST", "/api/categories", {"name": "Colleagues", "color": "#FF6B6B"})
+        # Category endpoint expects query parameters, not JSON body
+        response = self.make_request("POST", "/api/categories?name=Colleagues&color=%23FF6B6B")
         
         if response and response.status_code == 201:
             data = response.json()
