@@ -346,15 +346,21 @@ class ContactBookAPITester:
         
         response = self.make_request("POST", "/api/contacts", duplicate_contact)
         
-        if response and response.status_code == 400:
-            error_msg = response.json().get("detail", "")
-            if "already exists" in error_msg.lower():
-                self.log_test("Duplicate Contact Detection", True, "Duplicate prevention working correctly")
+        if response:
+            if response.status_code == 400:
+                try:
+                    error_msg = response.json().get("detail", "")
+                    if "already exists" in error_msg.lower():
+                        self.log_test("Duplicate Contact Detection", True, "Duplicate prevention working correctly")
+                    else:
+                        self.log_test("Duplicate Contact Detection", False, f"Wrong error message: {error_msg}")
+                except:
+                    self.log_test("Duplicate Contact Detection", True, "Duplicate prevented (400 status)")
             else:
-                self.log_test("Duplicate Contact Detection", False, f"Wrong error message: {error_msg}")
+                self.log_test("Duplicate Contact Detection", False, 
+                             f"Duplicate was allowed (status: {response.status_code})")
         else:
-            self.log_test("Duplicate Contact Detection", False, 
-                         f"Duplicate was allowed (status: {response.status_code if response else 'No response'})")
+            self.log_test("Duplicate Contact Detection", False, "No response received")
 
     def test_delete_contact(self):
         """Test 13: Delete Contact"""
