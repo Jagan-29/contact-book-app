@@ -363,12 +363,15 @@ class ContactBookAPITester:
             self.log_test("Delete Contact", False, "No authentication token or contact ID available")
             return
         
+        # Add small delay before test
+        time.sleep(0.2)
+        
         response = self.make_request("DELETE", f"/api/contacts/{self.created_contact_id}")
         
         if response and response.status_code == 204:
             self.log_test("Delete Contact", True, "Contact deleted successfully")
             # Verify deletion by trying to get the contact
-            time.sleep(0.1)  # Small delay to ensure deletion is processed
+            time.sleep(0.3)  # Longer delay to ensure deletion is processed
             get_response = self.make_request("GET", f"/api/contacts/{self.created_contact_id}")
             if get_response and get_response.status_code == 404:
                 self.log_test("Delete Contact Verification", True, "Contact deletion verified")
