@@ -50,25 +50,25 @@ class ContactBookAPITester:
         
         try:
             if method.upper() == "GET":
-                response = requests.get(url, headers=default_headers, params=data)
+                response = requests.get(url, headers=default_headers, params=data, timeout=10)
             elif method.upper() == "POST":
                 if files:
                     response = requests.post(url, headers={k: v for k, v in default_headers.items() if k != "Content-Type"}, 
-                                           data=data, files=files)
+                                           data=data, files=files, timeout=10)
                 else:
                     response = requests.post(url, headers=default_headers, 
-                                           json=data if data else None)
+                                           json=data if data else None, timeout=10)
             elif method.upper() == "PUT":
                 response = requests.put(url, headers=default_headers, 
-                                      json=data if data else None)
+                                      json=data if data else None, timeout=10)
             elif method.upper() == "DELETE":
-                response = requests.delete(url, headers=default_headers)
+                response = requests.delete(url, headers=default_headers, timeout=10)
             else:
                 raise ValueError(f"Unsupported method: {method}")
             
             return response
         except requests.exceptions.RequestException as e:
-            print(f"Request failed: {e}")
+            print(f"Request failed for {method} {url}: {e}")
             return None
 
     def test_health_check(self):
