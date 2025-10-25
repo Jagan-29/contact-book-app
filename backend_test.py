@@ -103,6 +103,12 @@ class ContactBookAPITester:
                 self.log_test("User Registration", True, "User registered successfully")
             else:
                 self.log_test("User Registration", False, "Invalid registration response format", data)
+        elif response and response.status_code == 400:
+            error_msg = response.json().get("detail", "Unknown error")
+            if "already registered" in error_msg:
+                self.log_test("User Registration", True, "User already exists (expected in repeated tests)")
+            else:
+                self.log_test("User Registration", False, f"Registration failed: {error_msg}")
         else:
             error_msg = response.json().get("detail", "Unknown error") if response else "No response"
             self.log_test("User Registration", False, f"Registration failed: {error_msg}")
